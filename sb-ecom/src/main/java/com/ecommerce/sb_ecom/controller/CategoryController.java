@@ -18,6 +18,12 @@ public class CategoryController {
 
     public CategoryService categoryService;
 
+    @GetMapping("/echo")
+    public ResponseEntity<String> echoMessage(@RequestParam(name="message",required = false) String message){
+        //public ResponseEntity<String> echoMessage(@RequestParam(name="message", defaultValue = "hello World") String message){
+        return new ResponseEntity<>("echoed Message: "+ message,HttpStatus.OK);
+        // http://localhost:8080/api/echo?message="Hi"
+    }
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
