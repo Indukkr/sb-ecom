@@ -17,11 +17,13 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
     private Long categoryID;
 
     @NotBlank
    // @Size(min = 5) default
     @Size(min=5,message = "Category name must have atleast 5 character") // custom
+    @Column(name = "category_name")
     private String categoryName;
 
 

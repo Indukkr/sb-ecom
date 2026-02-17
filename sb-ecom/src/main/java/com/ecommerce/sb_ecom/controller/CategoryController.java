@@ -1,5 +1,6 @@
 package com.ecommerce.sb_ecom.controller;
 
+import com.ecommerce.sb_ecom.configuration.AppConstants;
 import com.ecommerce.sb_ecom.model.Category;
 import com.ecommerce.sb_ecom.payload.CategoryDTO;
 import com.ecommerce.sb_ecom.payload.CategoryResponse;
@@ -18,21 +19,17 @@ public class CategoryController {
 
     public CategoryService categoryService;
 
-    @GetMapping("/echo")
-    public ResponseEntity<String> echoMessage(@RequestParam(name="message",required = false) String message){
-        //public ResponseEntity<String> echoMessage(@RequestParam(name="message", defaultValue = "hello World") String message){
-        return new ResponseEntity<>("echoed Message: "+ message,HttpStatus.OK);
-        // http://localhost:8080/api/echo?message="Hi"
-    }
-
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
     //@GetMapping("/public/categories")
     @RequestMapping(value="/public/categories",method=RequestMethod.GET)
-    private ResponseEntity<CategoryResponse>  getAllCategories(){
-        CategoryResponse categoryResponse= categoryService.getAllCategories();
+    private ResponseEntity<CategoryResponse>  getAllCategories(
+            @RequestParam(name = "pageNumber",defaultValue = AppConstants.PAGE_NUMBER,required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize",defaultValue = AppConstants.PAGE_SIZE,required = false) Integer pageSize
+    ){
+        CategoryResponse categoryResponse= categoryService.getAllCategories(pageNumber,pageSize);
         return new ResponseEntity<>(categoryResponse,HttpStatus.OK);
     }
 
