@@ -1,14 +1,12 @@
 package com.ecommerce.sb_ecom.service;
 
-import com.ecommerce.sb_ecom.model.Product;
 import com.ecommerce.sb_ecom.payload.ProductDTO;
 import com.ecommerce.sb_ecom.payload.ProductResponse;
-import org.springframework.stereotype.Service;
 
 
 public interface ProductService {
 
-    ProductDTO addProduct(Long categoryId, Product product);
+    ProductDTO addProduct(Long categoryId, ProductDTO product);
 
     ProductResponse getAllProduct();
 
@@ -16,7 +14,7 @@ public interface ProductService {
 
     ProductResponse searchByKeyword(String keyword);
 
-    ProductDTO updateProduct(Product product, Long productId);
+    ProductDTO updateProduct(ProductDTO product, Long productId);
 
     ProductDTO deleteProduct(Long productId);
 }
