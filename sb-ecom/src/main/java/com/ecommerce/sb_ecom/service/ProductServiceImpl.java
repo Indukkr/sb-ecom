@@ -9,6 +9,7 @@ import com.ecommerce.sb_ecom.repositories.CategoryRepository;
 import com.ecommerce.sb_ecom.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,11 @@ public class ProductServiceImpl implements ProductService{
     private CategoryRepository categoryRepository;
     @Autowired
     private ProductRepository productRepository ;
+
+    @Autowired FileService fileService;
+
+    @Value("${project.image}")
+    private String path;
 
     @Autowired
     ModelMapper modelMapper;
@@ -132,8 +138,7 @@ public class ProductServiceImpl implements ProductService{
 
         //Upload image to the server
         // Get File name of Uploaded Image
-        String path = "image/";
-        String filename = UploadImage(path, image);
+        String filename = fileService.uploadImage(path, image);
 
         // Updating the new file name to the product
         productFromDb.setImage(filename);
@@ -145,27 +150,5 @@ public class ProductServiceImpl implements ProductService{
         return modelMapper.map(updatedProduct,ProductDTO.class);
     }
 
-    private String UploadImage(String path, MultipartFile file) throws IOException {
-        // File names of current / original file
-        String OriginalFileName = file.getOriginalFilename();
 
-        // Generate a unique file
-        String randomId = UUID.randomUUID().toString();
-        //example mat.jpg--> 1234 --> 1234.jpg
-        String fileName = randomId.concat(OriginalFileName.substring(OriginalFileName.lastIndexOf('.')));
-        String filePath = path + File.separator + fileName;
-
-        //check if path exist and create
-        File folder = new File(path);
-        if(!folder.exists()){
-            folder.mkdir();
-        }
-
-        // upload to server
-        Files.copy(file.getInputStream(), Paths.get(filePath));
-
-        // returning filename
-        return fileName;
-
-    }
 }
