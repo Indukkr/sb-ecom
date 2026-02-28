@@ -11,15 +11,16 @@ public interface ProductService {
 
     ProductDTO addProduct(Long categoryId, ProductDTO product);
 
-    ProductResponse getAllProduct();
+    ProductResponse getAllProduct(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 
-    ProductResponse searchByCategory(Long categoryId);
+    ProductResponse searchByCategory(Long categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 
-    ProductResponse searchByKeyword(String keyword);
+    ProductResponse searchByKeyword(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder,String keyword);
 
     ProductDTO updateProduct(ProductDTO product, Long productId);
 
     ProductDTO deleteProduct(Long productId);
 
     ProductDTO updateImage(Long productId, MultipartFile image) throws IOException;
+
 }
