@@ -6,7 +6,12 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -35,4 +40,13 @@ public class User {
         this.password = password;
         this.email = email;
     }
+
+    @Setter
+    @Getter
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},
+                fetch = FetchType.EAGER)
+    @JoinTable(name="user_role",
+                joinColumns = @JoinColumn(name="user_id"))
+
+    private Set<Role> roles = new HashSet<>();
 }
