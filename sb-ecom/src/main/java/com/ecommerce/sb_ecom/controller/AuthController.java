@@ -3,6 +3,7 @@ package com.ecommerce.sb_ecom.controller;
 import com.ecommerce.sb_ecom.model.AppRole;
 import com.ecommerce.sb_ecom.model.Role;
 import com.ecommerce.sb_ecom.model.User;
+import com.ecommerce.sb_ecom.repositories.RoleRepository;
 import com.ecommerce.sb_ecom.repositories.UserRepository;
 import com.ecommerce.sb_ecom.security.jwt.JwtUtils;
 import com.ecommerce.sb_ecom.security.reaponse.MessageResponse;
