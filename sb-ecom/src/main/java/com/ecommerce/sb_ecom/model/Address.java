@@ -1,5 +1,6 @@
 package com.ecommerce.sb_ecom.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -19,7 +20,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String addressId;
+    private Long addressId;
 
     @NotBlank
     @Size(min = 5 , message="street name must be of size more than 5 letters")

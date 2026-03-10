@@ -51,12 +51,12 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest){
-
+        System.out.println("SIGNIN CONTROLLER HIT");
         Authentication authentication;
         try{
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            loginRequest.getName(),
+                            loginRequest.getUsername(),
                             loginRequest.getPassword()
                     )
             );
@@ -82,14 +82,14 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest){
-        if(userRepository.existByUserName(signupRequest.getUsername())){
+        if(userRepository.existsByUserName(signupRequest.getUsername())){
             return ResponseEntity.
                     badRequest().
                     body(new MessageResponse("Error: Username is already taken !!"));
 
         }
 
-        if(userRepository.existByEmail(signupRequest.getUsername())){
+        if(userRepository.existsByEmail(signupRequest.getUsername())){
             return ResponseEntity.
                     badRequest().
                     body(new MessageResponse("Error: Email is already registered !!"));
