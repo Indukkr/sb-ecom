@@ -11,7 +11,6 @@ import com.ecommerce.sb_ecom.security.reaponse.UserInfoResponse;
 import com.ecommerce.sb_ecom.security.request.LoginRequest;
 import com.ecommerce.sb_ecom.security.request.SignupRequest;
 import com.ecommerce.sb_ecom.security.services.UserDetailsImpl;
-import com.ecommerce.sb_ecom.security.services.UserDetailsServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,10 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -77,7 +73,7 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
         UserInfoResponse response = new UserInfoResponse(userDetails.getId(),
-                userDetails.getUsername(),roles);
+                userDetails.getUsername(),roles,jwtCookie.toString());
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,
                 jwtCookie.toString())
                 .body(response);
@@ -138,4 +134,26 @@ public class AuthController {
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered Successfully"));
     }
+
+
+    @GetMapping("/username")
+    public String currentUserName(Authentication authentication){
+        if(authentication !=null){
+            return authentication.getName();
+        }
+        else   return "NULL";
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<UserInfoResponse> getUserDetails(Authentication authentication){
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+        UserInfoResponse response = new UserInfoResponse(userDetails.getId(),
+                userDetails.getUsername(),roles);
+        return ResponseEntity.ok()
+                .body(response);
+    }
+
 }
