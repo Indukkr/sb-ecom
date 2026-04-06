@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,9 @@ public class Address {
     @Size(min = 6 , message="pincode name must be of size more than 6 letters")
     private String pincode;
 
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user ;
 
     public Address(String buildingName, String city, String country, String pincode, String state, String street) {
         this.buildingName = buildingName;
